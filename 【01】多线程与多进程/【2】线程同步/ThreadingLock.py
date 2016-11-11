@@ -1,8 +1,9 @@
 import threading
 import time
-import random
 
-# 创建自己的线程类
+# 利用锁进行同步
+# 如不同步，则list可能为[1, 4, 4, 7, 7, 8]
+# 如同步，则list为[1, 2, 4, 6, 7, 8]是有序添加
 my_count = 0
 list =[]
 
@@ -28,10 +29,10 @@ def add(add_value, times, name):
         # 否则超时后将返回False
         threadLock.acquire()
         my_count += add_value
-        # 释放锁
-        threadLock.release()
         print("Threading {} value: {}".format(name, my_count))
         list.append(my_count)
+        # 释放锁
+        threadLock.release()
         # time.sleep(random.randint(1, 3))
 
 len = 3  # 启动3个线程
