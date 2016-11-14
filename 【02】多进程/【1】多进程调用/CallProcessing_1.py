@@ -7,7 +7,7 @@ import random
 # 多进程可以规避GIL的坑，充分利用机器多处理器的优势，核越多性能越好
 # python多进程调用（multiprocessing调用多进程可以跨平台）
 # 进程可以起名字
-# 结束一个线程可以调用它的 terminate() 方法
+# 结束一个进程可以调用它的 terminate() 方法
 def my_double(number):
     result = number * 2
     pid = os.getpid()  # get process id
