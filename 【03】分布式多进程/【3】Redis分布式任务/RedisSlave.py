@@ -1,7 +1,6 @@
-from datetime import datetime
+import multiprocessing
 import time
-import threading
-import random
+
 import redis
 
 REDIS_HOST = 'localhost'
@@ -18,12 +17,12 @@ class MySlave:
     @staticmethod
     def start():
         for i in range(1, 4):
-            MyJobWorkerThread(CHANNEL_DISPATCH + '_' + str(i)).start()
+            MyJobWorkerProcess(CHANNEL_DISPATCH + '_' + str(i)).start()
 
 
-class MyJobWorkerThread(threading.Thread):
+class MyJobWorkerProcess(multiprocessing.Process):
     def __init__(self, channel):
-        threading.Thread.__init__(self)
+        multiprocessing.Process.__init__(self)
         self.channel = channel
 
     def run(self):

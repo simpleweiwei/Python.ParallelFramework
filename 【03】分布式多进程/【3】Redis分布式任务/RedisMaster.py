@@ -1,6 +1,7 @@
-import time
-import threading
+import multiprocessing
 import random
+import time
+
 import redis
 
 REDIS_HOST = 'localhost'
@@ -16,13 +17,13 @@ class MyMaster:
 
     @staticmethod
     def start():
-        MyServerResultHandleThread().start()
-        MyServerDispatchThread().start()
+        MyServerResultHandleProcess().start()
+        MyServerDispatchProcess().start()
 
 
-class MyServerDispatchThread(threading.Thread):
+class MyServerDispatchProcess(multiprocessing.Process):
     def __init__(self):
-        threading.Thread.__init__(self)
+        multiprocessing.Process.__init__(self)
 
     def run(self):
         r = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB)
@@ -35,9 +36,9 @@ class MyServerDispatchThread(threading.Thread):
             time.sleep(5)
 
 
-class MyServerResultHandleThread(threading.Thread):
+class MyServerResultHandleProcess(multiprocessing.Process):
     def __init__(self):
-        threading.Thread.__init__(self)
+        multiprocessing.Process.__init__(self)
 
     def run(self):
         r = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB)
